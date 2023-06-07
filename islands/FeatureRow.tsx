@@ -9,13 +9,13 @@ export default function FeatureRow({ title, status, stats }: Feature) {
   const isChartShown = useSignal(true);
   const versionList = useSignal(null);
   return (
-    <div>
-      <div class="flex justify-between">
-        <h2>{title}</h2>
+    <div class="my-4 rounded-lg">
+      <div class="flex justify-between mb-2 p-2 bg-gray-200 rounded dark:bg-gray-700">
+        <h2 class="text-lg font-medium">{title}</h2>
         <p>{status}</p>
       </div>
       <OlderVersions.Provider value={versionList}>
-        <ul class="grid grid-cols-7">
+        <ul class="grid grid-cols-7 gap-2">
           <li>
             <Version
               versions={stats.chrome}

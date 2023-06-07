@@ -11,5 +11,6 @@ import twindPlugin from "$fresh/plugins/twindv1.ts";
 import twindConfig from "./twind.config.ts";
 
 await start(manifest, {
-  plugins: [twindPlugin(twindConfig)],
+  // deno-lint-ignore no-explicit-any
+  plugins: [twindPlugin(twindConfig as any)],
 });

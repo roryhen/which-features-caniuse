@@ -1,4 +1,4 @@
-import { Signal, signal } from "@preact/signals";
+import { Signal, useSignal } from "@preact/signals";
 import * as semver from "semver";
 import { OlderVersions } from "./FeatureRow.tsx";
 import { useContext } from "preact/hooks";
@@ -25,15 +25,17 @@ function VersionNumber({ versions }: { versions: Props["versions"] }) {
     largest = largestVersion(Object.keys(versions));
 
     if (versions[largest] === "y") {
-      return <strong class="text-green-600">{largest}</strong>;
+      return (
+        <strong class="text-green-600 dark:text-emerald-700">{largest}</strong>
+      );
     }
   }
-  return <strong class="text-red-500">{largest}</strong>;
+  return <strong class="text-red-500 dark:text-rose-600">{largest}</strong>;
 }
 
 export default function Version({ versions, browser }: Props) {
   const olderVersions = useContext(OlderVersions);
-  const isLoading = signal(false);
+  const isLoading = useSignal(false);
   const clickHandler = async (signal: Signal | null) => {
     try {
       isLoading.value = true;
@@ -46,7 +48,11 @@ export default function Version({ versions, browser }: Props) {
   };
 
   return (
-    <button type="button" onClick={() => clickHandler(olderVersions)}>
+    <button
+      class="p-2 bg-gray-300 w-full rounded cursor-pointer dark:bg-gray-400"
+      type="button"
+      onClick={() => clickHandler(olderVersions)}
+    >
       {isLoading.value
         ? <p>Loading...</p>
         : <VersionNumber versions={versions} />}
