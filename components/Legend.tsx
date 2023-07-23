@@ -1,27 +1,45 @@
+import { ComponentChildren } from "preact";
+
+function BrowserLi(
+  { img, children }: { img: string; children: ComponentChildren },
+) {
+  return (
+    <li class="p-2 rounded bg-gray-400 dark:bg-gray-600 flex flex-col gap-2 text-xs leading-none items-center justify-center">
+      <img
+        src={img}
+        alt={`${children} browser`}
+        width="50"
+        height="50"
+      />
+      {children}
+    </li>
+  );
+}
+
 export default function Legend() {
   return (
-    <ul class="text-center grid grid-cols-7 gap-2 text-gray-100 font-semibold text-gray-800 dark:text-gray-300">
-      <li class="p-2 rounded bg-gray-400 dark:bg-gray-600 flex items-center justify-center">
+    <ul class="text-center grid grid-cols-4 md:grid-cols-7 gap-2 text-gray-100 font-semibold text-gray-800 dark:text-gray-300">
+      <BrowserLi img="/chrome_256x256.png">
         Chrome
-      </li>
-      <li class="p-2 rounded bg-gray-400 dark:bg-gray-600 flex items-center justify-center">
+      </BrowserLi>
+      <BrowserLi img="/edge_256x256.png">
         Edge
-      </li>
-      <li class="p-2 rounded bg-gray-400 dark:bg-gray-600 flex items-center justify-center">
+      </BrowserLi>
+      <BrowserLi img="/firefox_256x256.png">
         Firefox
-      </li>
-      <li class="p-2 rounded bg-gray-400 dark:bg-gray-600 flex items-center justify-center">
+      </BrowserLi>
+      <BrowserLi img="/safari_256x256.png">
         Safari
-      </li>
-      <li class="p-2 rounded bg-gray-400 dark:bg-gray-600 flex items-center justify-center">
+      </BrowserLi>
+      <BrowserLi img="/chrome_256x256.png">
         Android Chrome
-      </li>
-      <li class="p-2 rounded bg-gray-400 dark:bg-gray-600 flex items-center justify-center">
+      </BrowserLi>
+      <BrowserLi img="/firefox_256x256.png">
         Android Firefox
-      </li>
-      <li class="p-2 rounded bg-gray-400 dark:bg-gray-600 flex items-center justify-center">
+      </BrowserLi>
+      <BrowserLi img="/safari-ios_256x256.png">
         iOS Safari
-      </li>
+      </BrowserLi>
     </ul>
   );
 }

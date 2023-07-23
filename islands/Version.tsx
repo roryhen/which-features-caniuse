@@ -1,61 +1,78 @@
 import { Signal, useSignal } from "@preact/signals";
-import * as semver from "semver";
-import { OlderVersions } from "./FeatureRow.tsx";
-import { useContext } from "preact/hooks";
+import { Agent } from "caniuse-lite";
+import { useChart } from "./ChartProvider.tsx";
 
 type Props = {
-  versions?: Readonly<{
+  versionData?: Signal<
+    Readonly<{
+      [id: string]: Readonly<Agent> | undefined;
+    }>
+  >;
+  versionSupport?: Readonly<{
     [version: string]: string;
   }>;
   browser?: string;
 };
 
+const versionRegExp = /\d{1,4}(?:\.\d{1,2})?/;
+
 const largestVersion = (array: string[]) => {
   return array.reduce((previous, current) => {
-    if (semver.valid(previous) && semver.valid(current)) {
-      return semver.gt(previous, current) ? previous : current;
-    }
-    return current;
+    const prevVersion = previous.match(versionRegExp);
+    const currVersion = current.match(versionRegExp);
+    return Number(prevVersion) > Number(currVersion) ? previous : current;
   });
 };
 
-function VersionNumber({ versions }: { versions: Props["versions"] }) {
-  let largest;
+function VersionNumber({ versions }: { versions: Props["versionSupport"] }) {
   if (versions) {
-    largest = largestVersion(Object.keys(versions));
+    const largest = largestVersion(Object.keys(versions));
+    const supported = versions[largest] === "y";
 
-    if (versions[largest] === "y") {
-      return (
-        <strong class="text-green-600 dark:text-emerald-700">{largest}</strong>
-      );
-    }
+    return (
+      <strong
+        class={`block rounded p-2 dark:text-white ${
+          supported
+            ? "text-blue-600 bg-blue-200 dark:bg-teal-600"
+            : "text-red-600 bg-red-200 dark:bg-pink-600"
+        }`}
+      >
+        {largest}
+      </strong>
+    );
   }
-  return <strong class="text-red-500 dark:text-rose-600">{largest}</strong>;
+
+  return <></>;
 }
 
-export default function Version({ versions, browser }: Props) {
-  const olderVersions = useContext(OlderVersions);
+export default function Version(
+  { versionSupport, browser }: Props,
+) {
+  const { status, data } = useChart();
   const isLoading = useSignal(false);
-  const clickHandler = async (signal: Signal | null) => {
+
+  const clickHandler = async () => {
     try {
       isLoading.value = true;
       const res = await fetch(`/api/${browser}`);
-      signal!.value = await res.json();
-    } catch (err) {
-      console.log(err);
+      data.value = await res.json();
+    } catch (error) {
+      console.error(error);
     }
     isLoading.value = false;
+    status.value = !status.value;
   };
 
   return (
     <button
-      class="p-2 bg-gray-300 w-full rounded cursor-pointer dark:bg-gray-400"
+      class={`w-full rounded cursor-pointer ${
+        isLoading.value ? "opacity-80" : ""
+      }`}
       type="button"
-      onClick={() => clickHandler(olderVersions)}
+      onClick={clickHandler}
+      title="browser version"
     >
-      {isLoading.value
-        ? <p>Loading...</p>
-        : <VersionNumber versions={versions} />}
+      <VersionNumber versions={versionSupport} />
     </button>
   );
 }
