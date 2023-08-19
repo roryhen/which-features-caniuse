@@ -31,7 +31,7 @@ function VersionNumber({ versions }: { versions: Props["versionSupport"] }) {
 
     return (
       <strong
-        class={`block rounded p-2 dark:text-white ${
+        class={`block rounded-full p-2 dark:text-white ${
           supported
             ? "text-blue-600 bg-blue-200 dark:bg-teal-600"
             : "text-red-600 bg-red-200 dark:bg-pink-600"
@@ -65,9 +65,7 @@ export default function Version(
 
   return (
     <button
-      class={`w-full rounded cursor-pointer ${
-        isLoading.value ? "opacity-80" : ""
-      }`}
+      class={`w-full cursor-pointer ${isLoading.value ? "opacity-80" : ""}`}
       type="button"
       onClick={clickHandler}
       title="browser version"

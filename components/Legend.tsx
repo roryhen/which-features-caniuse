@@ -4,14 +4,16 @@ function BrowserLi(
   { img, children }: { img: string; children: ComponentChildren },
 ) {
   return (
-    <li class="p-2 rounded bg-gray-400 dark:bg-gray-600 flex flex-col gap-2 text-xs leading-none items-center justify-center">
+    <li class="p-2 pt-3 rounded-2xl bg-gray-100 dark:bg-gray-600 flex flex-col gap-2 text-xs leading-none items-center justify-center">
       <img
         src={img}
         alt={`${children} browser`}
-        width="50"
-        height="50"
+        width="30"
+        height="30"
       />
-      {children}
+      <span class="flex-grow flex items-center">
+        {children}
+      </span>
     </li>
   );
 }

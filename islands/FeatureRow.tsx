@@ -6,8 +6,8 @@ export default function FeatureRow({ stats, ...props }: Feature) {
   const { data, status } = useChart();
 
   return (
-    <div class="my-6 rounded-lg">
-      <div class="flex items-center justify-between mb-2 px-1 py-2 dark:px-3 bg-gray-200 rounded dark:bg-gray-700">
+    <div>
+      <div class="flex items-center justify-between mb-4 px-1">
         <h2 class="text-lg font-medium">{props.title}</h2>
         <p class="text-sm text-gray-500 font-extrabold dark:text-gray-300">
           {props.status}
