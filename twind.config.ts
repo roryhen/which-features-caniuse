@@ -1,9 +1,9 @@
-import { defineConfig } from "https://esm.sh/@twind/core@1.1.3";
-import presetTailwind from "https://esm.sh/@twind/preset-tailwind@1.1.4";
+import { Preset, defineConfig } from "@twind/core";
+import presetTailwind from "@twind/preset-tailwind";
 
 export default {
   ...defineConfig({
-    presets: [presetTailwind()],
+    presets: [presetTailwind() as Preset],
   }),
   selfURL: import.meta.url,
 };
