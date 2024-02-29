@@ -2,3 +2,4 @@
 .env
 # Fresh build directory
 _fresh/
+.DS_Store
